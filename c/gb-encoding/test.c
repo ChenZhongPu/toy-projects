@@ -8,6 +8,8 @@ Test(gb18030, invalid) {
     cr_assert(check_by_range(data[i], sizeof(data[i])) == false);
     cr_assert(check_by_range(data[i], sizeof(data[i])) ==
               naive_is_gb(data[i], sizeof(data[i])));
+    cr_assert(check_by_fsm(data[i], sizeof(data[i])) ==
+              naive_is_gb(data[i], sizeof(data[i])));
   }
 }
 
@@ -16,6 +18,8 @@ Test(gb18030, two_byte_tooshort) {
   cr_assert(check_by_range(data, sizeof(data)) == false);
   cr_assert(check_by_range(data, sizeof(data)) ==
             naive_is_gb(data, sizeof(data)));
+  cr_assert(check_by_fsm(data, sizeof(data)) ==
+            naive_is_gb(data, sizeof(data)));
 }
 
 Test(gb18030, four_byte_tooshort) {
@@ -23,15 +27,21 @@ Test(gb18030, four_byte_tooshort) {
   cr_assert(check_by_range(data, sizeof(data)) == false);
   cr_assert(check_by_range(data, sizeof(data)) ==
             naive_is_gb(data, sizeof(data)));
+  cr_assert(check_by_fsm(data, sizeof(data)) ==
+            naive_is_gb(data, sizeof(data)));
 
   char data1[] = {0x90, 0x30};
   cr_assert(check_by_range(data1, sizeof(data1)) == false);
   cr_assert(check_by_range(data1, sizeof(data1)) ==
             naive_is_gb(data1, sizeof(data1)));
+  cr_assert(check_by_fsm(data1, sizeof(data1)) ==
+            naive_is_gb(data1, sizeof(data1)));
 
   char data2[] = {0x90, 0x30, 0x81};
   cr_assert(check_by_range(data2, sizeof(data2)) == false);
   cr_assert(check_by_range(data2, sizeof(data2)) ==
+            naive_is_gb(data2, sizeof(data2)));
+  cr_assert(check_by_fsm(data2, sizeof(data2)) ==
             naive_is_gb(data2, sizeof(data2)));
 }
 
@@ -41,6 +51,8 @@ Test(gb18030, two_byte_outrange) {
   for (int i = 0; i < 3; i++) {
     cr_assert(check_by_range(data[i], sizeof(data[i])) == false);
     cr_assert(check_by_range(data[i], sizeof(data[i])) ==
+              naive_is_gb(data[i], sizeof(data[i])));
+    cr_assert(check_by_fsm(data[i], sizeof(data[i])) ==
               naive_is_gb(data[i], sizeof(data[i])));
   }
 }
@@ -53,6 +65,8 @@ Test(gb18030, four_byte_reserved) {
     cr_assert(check_by_range(data[i], sizeof(data[i])) == false);
     cr_assert(check_by_range(data[i], sizeof(data[i])) ==
               naive_is_gb(data[i], sizeof(data[i])));
+    cr_assert(check_by_fsm(data[i], sizeof(data[i])) ==
+              naive_is_gb(data[i], sizeof(data[i])));
   }
 }
 
@@ -61,6 +75,8 @@ Test(gb18030, four_byte_userdefined) {
   cr_assert(check_by_range(data, sizeof(data)) == false);
   cr_assert(check_by_range(data, sizeof(data)) ==
             naive_is_gb(data, sizeof(data)));
+  cr_assert(check_by_fsm(data, sizeof(data)) ==
+            naive_is_gb(data, sizeof(data)));
 }
 
 Test(gb18030, four_byte_bmp) {
@@ -68,11 +84,15 @@ Test(gb18030, four_byte_bmp) {
   cr_assert(check_by_range(data, sizeof(data)) == false);
   cr_assert(check_by_range(data, sizeof(data)) ==
             naive_is_gb(data, sizeof(data)));
+  cr_assert(check_by_fsm(data, sizeof(data)) ==
+            naive_is_gb(data, sizeof(data)));
 }
 
 Test(gb18030, four_byte_supp) {
   char data[] = {0xE3, 0x32, 0x9A, 0x36};
   cr_assert(check_by_range(data, sizeof(data)) == false);
   cr_assert(check_by_range(data, sizeof(data)) ==
+            naive_is_gb(data, sizeof(data)));
+  cr_assert(check_by_fsm(data, sizeof(data)) ==
             naive_is_gb(data, sizeof(data)));
 }
